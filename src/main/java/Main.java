@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 class Transaction {
-  public int type;
+  public byte type;
   public long nonce;
   public byte[] src_addr;
   public byte[] dst_addr;
@@ -18,7 +18,7 @@ class Transaction {
 public class Main {
   public static void main(String[] args) throws CborException, IOException {
 
-    var tx = new Transaction();
+    Transaction tx = new Transaction();
     tx.type = 1;
     tx.nonce = 52;
     tx.src_addr = new byte[]{0x1, 0x2, 0x3, 0x4};
@@ -26,7 +26,7 @@ public class Main {
     tx.data = new byte[]{0x1, 0x2, 0x3, 0x4};
     tx.block_hash = new byte[]{0x5, 0x6, 0x7, 0x8};
 
-    var baos = new ByteArrayOutputStream();
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
     new CborEncoder(baos).encode(new CborBuilder()
         .addMap()
         .put("type", tx.type)
@@ -38,7 +38,7 @@ public class Main {
         .end()
         .build());
 //    byte[] bytes = baos.toByteArray();
-    var fos = new FileOutputStream("java.txt");
+    FileOutputStream fos = new FileOutputStream("java.txt");
     baos.writeTo(fos);
     baos.close();
     fos.close();
